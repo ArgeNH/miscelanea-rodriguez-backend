@@ -1,0 +1,26 @@
+{
+  "name": "miscelanea-rodriguez",
+  "version": "0.0.1",
+  "description": "Api para tienda virtual, con pasarela de pagos",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",  
+    "dev": "nodemon src/index.js" 
+  },
+  "keywords": [
+    "Javascript",
+    "NodeJS",
+    "APIRest",
+    "mongoose"
+  ],
+  "author": "Grupo 2 - Gerencia",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^6.0.13"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
