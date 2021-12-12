@@ -13,7 +13,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(cors());
 
 //routes
-app.use('/api', require('../routes/index'));
+app.use('/api/user', require('../routes/user'));
 
 app.listen(app.get('port'), () => {
     console.log(`API is listen in port ${app.get('port')}`);
