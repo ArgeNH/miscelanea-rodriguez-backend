@@ -1,16 +1,20 @@
 const { Router } = require('express');
 const {
     newUser,
-    getUsers, 
+    getUsers,
     signUp,
-    signIn} = require('../controller/user');
+    signIn,
+    updateUser,
+    getUser } = require('../controller/user');
 
 const router = Router();
 
 //rutas
-router.get('/', getUsers)
+router.get('/', getUsers);
+router.get('/:id', getUser);
 router.post('/', newUser);
-router.post('/signup',signUp);
+router.post('/signup', signUp);
 router.post('/signin', signIn);
+router.patch('/:email', updateUser);
 
 module.exports = router;

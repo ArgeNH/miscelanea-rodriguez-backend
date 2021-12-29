@@ -1,5 +1,4 @@
 const { Schema, model } = require('mongoose');
-const bcryt = require('bcryptjs')
 
 const UserSchema = new Schema({
     name: {
@@ -19,6 +18,24 @@ const UserSchema = new Schema({
         require: true,
         unique: true
     },
+    city: {
+        type: String,
+        require: true
+    },
+    address: {
+        type: String,
+        require: true
+    },
+    phone: {
+        type: Number,
+        require: true
+    },
+    role: {
+        type: String,
+        require: true,
+        default: 'CLIENT',
+        enum: ['CLIENT', 'ADMIN']
+    }
 });
 
 UserSchema.method('toJSON', function () {
@@ -27,12 +44,4 @@ UserSchema.method('toJSON', function () {
     return object;
 });
 
-/*UserSchema.statics.encryptPassword = async(password) =>{
-    const salt = await bcryt.getSalt(10) //el timepo que va a aplica rel recorrido
-     return await bcryt.hash(password,salt)//devolvemos el texto cifrado
-}
-UserSchema.statics.comparapassword = async(password,recePassword) =>{
-   return await  bcryt.compare(password,recePassword)
-    
-}*/
 module.exports = model('user', UserSchema);
