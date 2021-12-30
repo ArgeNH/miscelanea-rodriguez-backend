@@ -8,6 +8,10 @@ const ImageSchema = new Schema({
     public_id: {
         type: String,
         require: true
+    },
+    productOwner: {
+        type: Schema.Types.ObjectId,
+        require: true
     }
 });
 

@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-const url = 'mongodb+srv://gerencia:MkrIiD4AOPNbbOVg@cluster0.qiivs.mongodb.net/miscelanea';
-
-mongoose.connect(url)
+mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true })
     .then(() => console.log('Connect DB Success'))
     .catch((err) => console.log(`ERROR to connect : ${err.message}`));
 
