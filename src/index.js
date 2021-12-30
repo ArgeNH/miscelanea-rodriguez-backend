@@ -17,6 +17,7 @@ app.use(cors());
 
 //routes
 app.use('/api/user', require('../routes/user'));
+app.use('/api/product', require('../routes/product'));
 
 app.listen(app.get('port'), () => {
     console.log(`API is listen in port ${app.get('port')}`);
