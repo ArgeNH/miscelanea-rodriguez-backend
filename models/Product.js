@@ -18,18 +18,19 @@ const ProductSchema = new Schema({
         type: Number,
         require: true
     },
-    image: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Image'
-        }
-    ]
-});
-
-ProductSchema.method('toJSON', () => {
-    const { __v, _id, ...object } = this.toObject();
-    object.id = _id;
-    return object;
+    category: {
+        type: String,
+        require: true,
+        default: 'OTROS',
+        enum: ['PAPELERIA', 'FARMACIA', 'ASEO', 'HOGAR', 'FERRETERIA', 'OTROS', 'PROMOCION']
+    },
+    url: {
+        type: String,
+        require: true
+    },
+    public_id: {
+        type: String
+    }
 });
 
 module.exports = model('product', ProductSchema);

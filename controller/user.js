@@ -94,7 +94,8 @@ const updateUser = async (req, res) => {
         lastName: user.lastName || result.lastName,
         city: user.city || result.city,
         address: user.address || result.address,
-        phone: user.phone || result.phone
+        phone: user.phone || result.phone,
+        role: user.role || result.role
       }
     });
     return res.status(200).json({
