@@ -110,11 +110,28 @@ const updateUser = async (req, res) => {
   }
 }
 
+const deleteUser = async (req, res) => {
+  try {
+    const { email } = req.params;
+    const user = await User.findOneAndDelete({ email: email });
+    return res.status(200).json({
+      success: true,
+      user
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   newUser,
   getUsers,
   signUp,
   signIn,
   updateUser,
-  getUser
+  getUser,
+  deleteUser
 };
