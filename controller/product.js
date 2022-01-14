@@ -26,7 +26,7 @@ const getProducts = async (req, res) => {
 
 const newProduct = async (req, res) => {
     try {
-        const { public_id, url } = await cloudinary.uploader.upload(req.files[0].path);
+        const { public_id, secure_url } = await cloudinary.uploader.upload(req.files[0].path);
         const { code, nameProduct, price, cant, category } = req.body;
         const product = new Product({
             code,
@@ -34,7 +34,7 @@ const newProduct = async (req, res) => {
             price,
             cant,
             category,
-            url,
+            url: secure_url,
             public_id
         });
         await product.save();
