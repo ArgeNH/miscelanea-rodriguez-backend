@@ -85,7 +85,7 @@ const signIn = async (req, res) => {
 
       if (!user) {
          return res.status(400).json({
-            succes: false,
+            success: false,
             error: 'El usuario no se encuentra registrado.'
          });
       }
@@ -99,7 +99,7 @@ const signIn = async (req, res) => {
       }
 
       return res.status(200).json({
-         succes: true,
+         success: true,
          user: {
             _id: user._id,
             name: user.name,
