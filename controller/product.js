@@ -82,9 +82,12 @@ const updateProduct = async (req, res) => {
                 nameProduct: product.nameProduct || result.nameProduct,
                 price: product.price || result.price,
                 cant: product.cant || result.cant,
+                url: product.url || result.url,
                 category: product.category || result.category
             }
         });
+        
+        console.log('entra');
         return res.status(200).json({
             success: true,
             user: result
