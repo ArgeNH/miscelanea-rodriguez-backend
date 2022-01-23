@@ -86,7 +86,8 @@ const signIn = async (req, res) => {
       if (!user) {
          return res.status(400).json({
             success: false,
-            error: 'El usuario no se encuentra registrado.'
+            error: 'El correo no se encuentra registrado, por favor verifiquelo o registrese en el sitio.',
+            nameError: 'Correo no encontrado'
          });
       }
 
@@ -94,7 +95,8 @@ const signIn = async (req, res) => {
       if (!validPassword) {
          return res.status(400).json({
             success: false,
-            error: 'La contraseña del usuario es incorrecta'
+            error: 'La contraseña del usuario es incorrecta, por favor vuelva a digitarla.',
+            nameError: 'Contraseña incorrecta'
          });
       }
 
@@ -125,7 +127,6 @@ const updateUser = async (req, res) => {
       const { email } = req.params;
       const user = req.body;
       let result = await User.findOne({ email: email });
-      console.log(result);
       result = await User.findOneAndUpdate({ email: email }, {
          $set: {
             name: user.name || result.name,
