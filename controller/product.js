@@ -104,6 +104,7 @@ const deleteProduct = async (req, res) => {
    try {
       const { code } = req.params;
       const product = await Product.findOneAndDelete({ code: code });
+      cloudinary.uploader.destroy(product.public_id);
       return res.status(200).json({
          success: true,
          product
