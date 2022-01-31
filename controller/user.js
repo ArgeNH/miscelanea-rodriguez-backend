@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jw = require("jsonwebtoken");
+const { generateJWT } = require("../helpers/jwt");
 
 const newUser = async (req, res) => {
    try {
@@ -54,19 +55,52 @@ const getUser = async (req, res) => {
 }
 
 const signUp = async (req, res) => {
+   const { password, email } = req.body;
    try {
-      const { password, email } = req.body;
-      let user = new User(req.body);
+
+      let user = await User.findOne({ email });
+
+      if (user) {
+         res.status(400).json({
+            success: false,
+            error: `Usuario ya existente con el correo: ${email}`,
+            nameError: 'Correo en uso'
+         })
+      }
+
+      user = new User(req.body);
+
+      //encriptacion password
       const salt = bcrypt.genSaltSync(10);
       user.password = bcrypt.hashSync(password, salt);
+
+      //guardar el usuario en la base de datos
       await user.save();
 
-      const token = jw.sign({ id: user._id }, "SECRET", {
-         expiresIn: 86400, // 24H
-      });
+      //token
+      const token = await generateJWT(
+         user.id,
+         user.name,
+         user.lastName,
+         user.email,
+         user.city,
+         user.address,
+         user.phone,
+         user.role
+      );
+
       return res.status(200).json({
          success: true,
-         user,
+         user: {
+            _id: user._id,
+            name: user.name,
+            lastName: user.lastName,
+            email: user.email,
+            city: user.city,
+            address: user.address,
+            phone: user.phone,
+            role: user.role
+         },
          token
       });
 
@@ -79,9 +113,9 @@ const signUp = async (req, res) => {
 };
 
 const signIn = async (req, res) => {
+   const { email, password } = req.body;
    try {
-      const { email, password } = req.body;
-      const user = await User.findOne({ email: email });
+      const user = await User.findOne({ email });
 
       if (!user) {
          return res.status(400).json({
@@ -100,6 +134,18 @@ const signIn = async (req, res) => {
          });
       }
 
+      //token
+      const token = await generateJWT(
+         user.id,
+         user.name,
+         user.lastName,
+         user.email,
+         user.city,
+         user.address,
+         user.phone,
+         user.role
+      );
+
       return res.status(200).json({
          success: true,
          user: {
@@ -111,7 +157,8 @@ const signIn = async (req, res) => {
             address: user.address,
             phone: user.phone,
             role: user.role
-         }
+         },
+         token
       });
 
    } catch (error) {

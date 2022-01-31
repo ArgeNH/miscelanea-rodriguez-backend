@@ -12,7 +12,7 @@ app.set('port', process.env.PORT || 5000);
 
 //middleware
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 //routes
@@ -20,5 +20,5 @@ app.use('/api/user', require('../routes/user'));
 app.use('/api/product', require('../routes/product'));
 
 app.listen(app.get('port'), () => {
-    console.log(`API is listen in port ${app.get('port')}`);
+   console.log(`API is listen in port ${app.get('port')}`);
 });
