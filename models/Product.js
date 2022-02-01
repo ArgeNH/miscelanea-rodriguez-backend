@@ -3,30 +3,30 @@ const { Schema, model } = require('mongoose');
 const ProductSchema = new Schema({
    code: {
       type: String,
-      require: true,
+      required: true,
       unique: true
    },
    nameProduct: {
       type: String,
-      require: true
+      required: true
    },
    price: {
       type: Number,
-      require: true
+      required: true
    },
    cant: {
       type: Number,
-      require: true
+      required: true
    },
    category: {
       type: String,
-      require: true,
+      required: true,
       default: 'OTROS',
       enum: ['PAPELERIA', 'FARMACIA', 'ASEO', 'HOGAR', 'FERRETERIA', 'OTROS', 'PROMOCION']
    },
    url: {
       type: String,
-      require: true
+      required: true
    },
    public_id: {
       type: String

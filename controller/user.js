@@ -3,26 +3,6 @@ const bcrypt = require("bcryptjs");
 const jw = require("jsonwebtoken");
 const { generateJWT } = require("../helpers/jwt");
 
-const newUser = async (req, res) => {
-   try {
-      const { password, email } = req.body;
-      //  let user = await User.find({ email });
-      let user = new User(req.body);
-      const salt = bcrypt.genSaltSync();
-      user.password = bcrypt.hashSync(password, salt);
-      await user.save();
-      return res.status(200).json({
-         success: true,
-         user,
-      });
-   } catch (error) {
-      return res.status(500).json({
-         success: false,
-         error: error.message,
-      });
-   }
-};
-
 const getUsers = async (req, res) => {
    try {
       const users = await User.find({});
@@ -213,7 +193,6 @@ const deleteUser = async (req, res) => {
 };
 
 module.exports = {
-   newUser,
    getUsers,
    signUp,
    signIn,
