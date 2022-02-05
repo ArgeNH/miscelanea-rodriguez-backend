@@ -19,6 +19,6 @@ router.post('/signin', signIn);
 router.patch('/updateUser/:email', updateUser);
 router.delete('/deleteUser/:email', deleteUser);
 
-router.get('/renew', validateJWT, revalidateToken)
+router.get('/token/renew', validateJWT, revalidateToken)
 
 module.exports = router;

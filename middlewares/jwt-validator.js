@@ -17,7 +17,7 @@ const validateJWT = (req, res = response, next) => {
          process.env.SECRET_JWT_SEED
       );
 
-      req.uid = id;
+      req.id = id;
       req.name = name;
       req.lastName = lastName;
       req.email = email;
