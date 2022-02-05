@@ -5,7 +5,9 @@ const {
    signIn,
    updateUser,
    getUser,
-   deleteUser } = require('../controller/user');
+   deleteUser,
+   revalidateToken } = require('../controller/user');
+const { validateJWT } = require('../middlewares/jwt-validator');
 
 const router = Router();
 
@@ -16,5 +18,7 @@ router.post('/signup', signUp);
 router.post('/signin', signIn);
 router.patch('/updateUser/:email', updateUser);
 router.delete('/deleteUser/:email', deleteUser);
+
+router.get('/renew', validateJWT, revalidateToken)
 
 module.exports = router;

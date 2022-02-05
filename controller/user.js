@@ -192,11 +192,41 @@ const deleteUser = async (req, res) => {
    }
 };
 
+const revalidateToken = async (req, res) => {
+   const { id, name, lastName, email, city, address, phone, role } = req;
+   const token = await generateJWT(
+      id,
+      name,
+      lastName,
+      email,
+      city,
+      address,
+      phone,
+      role
+   );
+
+   return res.status(200).json({
+      success: true,
+      token,
+      user: {
+         _id: id,
+         name,
+         lastName,
+         email,
+         city,
+         address,
+         phone,
+         role
+      }
+   });
+}
+
 module.exports = {
    getUsers,
    signUp,
    signIn,
    updateUser,
    getUser,
-   deleteUser
+   deleteUser,
+   revalidateToken
 };
