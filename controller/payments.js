@@ -32,7 +32,7 @@ const createOrder = async (req, res = response) => {
       params.append("grant_type", "client_credentials");
       const {
          data: { access_token },
-      } = await axios.post(`https://api-m.sandbox.paypal.com/v1/oauth2/token`,
+      } = await axios.post(`${process.env.PAYPAL_API}/v1/oauth2/token`,
          params,
          {
             headers: {
