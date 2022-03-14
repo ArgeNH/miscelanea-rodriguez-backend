@@ -24,8 +24,8 @@ const createOrder = async (req, res = response) => {
             brand_name: "miscelanearodriguez.life",
             landing_page: "LOGIN",
             user_action: "PAY_NOW",
-            return_url: "http://localhost:5000/api/payments/getOrder",
-            cancel_url: "http://localhost:5000/api/payments/cancel",
+            return_url: `${process.env.DATA_URL}/api/payments/getOrder`,
+            cancel_url: `${process.env.DATA_URL}/api/payments/cancel`,
          },
       };
       const params = new URLSearchParams();
