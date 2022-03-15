@@ -28,6 +28,7 @@ const createOrder = async (req, res = response) => {
             cancel_url: `${process.env.DATA_URL}/api/payments/cancel`,
          },
       };
+      console.log(process.env.DATA_URL);
       const params = new URLSearchParams();
       params.append("grant_type", "client_credentials");
       const {
