@@ -1,10 +1,9 @@
 const axios = require('axios');
 const { response } = require('express');
-const { token } = require('morgan');
 
 const createOrder = async (req, res = response) => {
    const { value } = req.body;
-
+   console.log(value);
    const total = value * 0.00026;
    const totalnotDecimal = Math.ceil(total);
 
@@ -31,9 +30,7 @@ const createOrder = async (req, res = response) => {
       console.log(process.env.DATA_URL);
       const params = new URLSearchParams();
       params.append("grant_type", "client_credentials");
-      const {
-         data: { access_token },
-      } = await axios.post(`${process.env.PAYPAL_API}/v1/oauth2/token`,
+      const { data: { access_token } } = await axios.post(`${process.env.PAYPAL_API}/v1/oauth2/token`,
          params,
          {
             headers: {
@@ -44,6 +41,7 @@ const createOrder = async (req, res = response) => {
                password: process.env.PAYPAL_API_SECRET,
             }
          });
+
       const respom = await axios.post(`${process.env.PAYPAL_API}/v2/checkout/orders`, order, {
          headers: {
             Authorization: `Bearer ${access_token}`

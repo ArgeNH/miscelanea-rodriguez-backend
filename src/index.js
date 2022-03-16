@@ -1,13 +1,11 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
-const paymentsR = require('../routes/payment');
 
 require('../database/connect-mongo');
 require('dotenv').config();
 const app = express();
 app.use(morgan('dev'));
-app.use(paymentsR);
 
 //settings
 app.set('port', process.env.PORT || 5000);
