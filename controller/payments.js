@@ -70,15 +70,19 @@ const capOrder = async (req, res) => {
          password: process.env.PAYPAL_API_SECRET,
       },
    })
+   res.redirect('https://www.miscelanearodriguez.life');
    return res.status(200).json({
       success: true,
-      message: 'Se hizo la orden',
-      response: response.data
-   })
+      message: 'Compra realizada'
+   });
 }
 
 const cancel = (req, res) => {
    res.redirect('https://www.miscelanearodriguez.life');
+   return res.status(200).json({
+      success: true,
+      message: 'Compra rechazada'
+   });
 }
 
 module.exports = {
