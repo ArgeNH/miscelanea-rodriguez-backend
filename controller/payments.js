@@ -1,9 +1,14 @@
 const axios = require('axios');
 const { response } = require('express');
 
+const Product = require('../models/Product');
+
+var productsArray = [];
+
 const createOrder = async (req, res = response) => {
-   const { value } = req.body;
-   console.log(value);
+   const { value, products } = req.body;
+   productsArray = products;
+
    const total = value * 0.00026;
    const totalnotDecimal = Math.ceil(total);
 
@@ -63,26 +68,37 @@ const createOrder = async (req, res = response) => {
 };
 
 const capOrder = async (req, res) => {
-   const { token } = req.query
+   const { token } = req.query;
+
    const response = await axios.post(`${process.env.PAYPAL_API}/v2/checkout/orders/${token}/capture`, {}, {
       auth: {
          username: process.env.PAYPAL_API_CLIENT,
          password: process.env.PAYPAL_API_SECRET,
       },
    })
-   res.redirect('https://www.miscelanearodriguez.life');
-   return res.status(200).json({
-      success: true,
-      message: 'Compra realizada'
-   });
+
+   updateProduct(productsArray);
+   return res.status(200).redirect('https://www.miscelanearodriguez.life/gracias');
+}
+
+const updateProduct = async (array) => {
+   try {
+      for (let i = 0; i < array.length; i++) {
+         let result = await Product.findOne({ code: array[i].code });
+         result = await Product.findOneAndUpdate({ code: array[i].code }, {
+            $set: {
+               cant: result.cant - array[i].counter
+            }
+         });
+      }
+      console.log('Productos actualizados');
+   } catch (error) {
+      console.log(error);
+   }
 }
 
 const cancel = (req, res) => {
-   res.redirect('https://www.miscelanearodriguez.life');
-   return res.status(200).json({
-      success: true,
-      message: 'Compra rechazada'
-   });
+   return res.status(200).redirect('https://www.miscelanearodriguez.life/cancelado');
 }
 
 module.exports = {
