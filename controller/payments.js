@@ -86,7 +86,7 @@ const capOrder = async (req, res) => {
       },
    })
    
-   console.log(oderUser);
+   console.log(orderUser);
    await fetch(`${process.env.DATA_URL}/api/order/`, {
       method: 'POST',
       headers: {
