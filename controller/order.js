@@ -4,7 +4,8 @@ const Order = require('../models/Order');
 
 const getOrders = async (req, res) => {
    try {
-      const orders = await Order.find({});
+      const orders = await Order.find({})
+      .populate('user','name lastName');
       return res.status(200).json({
          success: true,
          orders
@@ -20,7 +21,11 @@ const getOrders = async (req, res) => {
 const getOrder = async (req, res) => {
    try {
       const { id } = req.params;
-      const order = await Order.findById(id).populate('products').populate('user');
+
+      const order = await Order.findById(id)
+      .populate('products', 'code nameProduct category price url')
+      .populate('user', 'name lastName address email city phone');
+
       if (!order) {
          return res.status(404).json({
             success: false,
