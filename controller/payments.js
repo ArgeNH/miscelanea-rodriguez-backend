@@ -4,10 +4,18 @@ const { response } = require('express');
 const Product = require('../models/Product');
 
 var productsArray = [];
+var orderUser = {};
 
 const createOrder = async (req, res = response) => {
-   const { value, products } = req.body;
+   const { value, products, user, pay } = req.body;
    productsArray = products;
+
+   orderUser = {
+      pay,
+      products,
+      total: value,
+      user
+   }
 
    const total = value * 0.00026;
    const totalnotDecimal = Math.ceil(total);
@@ -76,6 +84,22 @@ const capOrder = async (req, res) => {
          password: process.env.PAYPAL_API_SECRET,
       },
    })
+   //fetch order to post in route
+   await fetch(`${process.env.DATA_URL}/api/order/`, {
+      method: 'POST',
+      headers: {
+         'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+         orderUser
+      })
+   }).then(res => res.json())
+      .then(data => {
+         console.log(data);
+      })
+      .catch(err => console.log(err));
+
+
 
    updateProduct(productsArray);
    return res.status(200).redirect('https://www.miscelanearodriguez.life/gracias');
