@@ -98,6 +98,7 @@ const updateProduct = async (array) => {
 }
 
 const cancel = (req, res) => {
+   console.log('Cancelado');
    return res.status(200).redirect('https://www.miscelanearodriguez.life/cancelado');
 }
 
