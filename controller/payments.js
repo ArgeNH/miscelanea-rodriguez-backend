@@ -1,5 +1,6 @@
 const axios = require('axios');
 const { response } = require('express');
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 const Product = require('../models/Product');
 
@@ -84,7 +85,8 @@ const capOrder = async (req, res) => {
          password: process.env.PAYPAL_API_SECRET,
       },
    })
-   //fetch order to post in route
+   
+   console.log(oderUser);
    await fetch(`${process.env.DATA_URL}/api/order/`, {
       method: 'POST',
       headers: {
