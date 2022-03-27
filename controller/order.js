@@ -20,7 +20,7 @@ const getOrders = async (req, res) => {
 const getOrder = async (req, res) => {
    try {
       const { id } = req.params;
-      const order = await Order.findById(id);
+      const order = await Order.findById(id).populate('products').populate('user');
       if (!order) {
          return res.status(404).json({
             success: false,
@@ -41,14 +41,16 @@ const getOrder = async (req, res) => {
 
 const createOrder = async (req, res) => {
    try {
-      const { pay, user, products, total } = req.body;
-      console.log("🚀 ~ file: order.js ~ line 45 ~ createOrder ~ pay, user, products, total", pay, user, products, total)
+      const { pay, user, products, total, cant } = req.body;
+      console.log("🚀 ~ file: order.js ~ line 45 ~ createOrder ~ pay, user, products, total", 
+      pay, user, products, total, cant);
 
       const order = new Order({
          pay,
          products,
          total,
-         user
+         user,
+         cant
       });
       await order.save();
       return res.status(200).json({

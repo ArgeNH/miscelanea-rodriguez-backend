@@ -87,10 +87,11 @@ const capOrder = async (req, res) => {
       },
    })
 
-   console.log("🚀 ~ file: payments.js ~ line 90 ~ capOrder ~ orderUser", orderUser);
-   //obtener _id de los produtcs en orderUser y guardarlos en una variable
    const productsId = orderUser.products.map(product => product._id);
-   console.log("🚀 ~ file: payments.js ~ line 95 ~ capOrder ~ productsId", productsId);
+   const productsCounter = orderUser.products.map(product => product.counter);
+
+   console.log("🚀 ~ file: payments.js ~ line 93 ~ capOrder ~ productsCounter", productsCounter);
+
    await fetch(`${process.env.DATA_URL}/api/order/`, {
       method: 'POST',
       headers: {
@@ -100,7 +101,8 @@ const capOrder = async (req, res) => {
          pay: orderUser.pay,
          products: productsId,
          total: orderUser.total,
-         user: orderUser.user
+         user: orderUser.user,
+         cant: productsCounter
       })
    }).then(res => res.json())
       .then(data => {

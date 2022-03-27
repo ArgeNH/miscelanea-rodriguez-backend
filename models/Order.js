@@ -10,7 +10,7 @@ const OrderSchema = new Schema({
       {
          type: Schema.Types.ObjectId,
          ref: 'product'
-      }
+      },
    ],
    total: {
       type: Number,
@@ -20,7 +20,13 @@ const OrderSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'user',
       required: true
-   }
+   },
+   cant: [
+      {
+         type: Number,
+         required: true
+      }
+   ]
 });
 
 module.exports = model('order', OrderSchema);
