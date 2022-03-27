@@ -42,6 +42,7 @@ const getOrder = async (req, res) => {
 const createOrder = async (req, res) => {
    try {
       const { pay, user, products, total } = req.body;
+      console.log(products);
       const order = new Order({
          pay,
          products,
