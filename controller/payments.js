@@ -17,6 +17,7 @@ const createOrder = async (req, res = response) => {
       total: value,
       user
    }
+   console.log("🚀 ~ file: payments.js ~ line 15 ~ createOrder ~ orderUser", orderUser);
 
    const total = value * 0.00026;
    const totalnotDecimal = Math.ceil(total);
@@ -86,7 +87,7 @@ const capOrder = async (req, res) => {
       },
    })
    
-   console.log(orderUser);
+   console.log("🚀 ~ file: payments.js ~ line 90 ~ capOrder ~ orderUser", orderUser);
    await fetch(`${process.env.DATA_URL}/api/order/`, {
       method: 'POST',
       headers: {
