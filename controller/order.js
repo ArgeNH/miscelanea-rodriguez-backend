@@ -50,7 +50,8 @@ const createOrder = async (req, res) => {
          products,
          total,
          user,
-         cant
+         cant,
+         date: new Date()
       });
       await order.save();
       return res.status(200).json({
