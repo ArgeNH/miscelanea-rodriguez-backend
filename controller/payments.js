@@ -86,15 +86,21 @@ const capOrder = async (req, res) => {
          password: process.env.PAYPAL_API_SECRET,
       },
    })
-   
+
    console.log("🚀 ~ file: payments.js ~ line 90 ~ capOrder ~ orderUser", orderUser);
+   //obtener _id de los produtcs en orderUser y guardarlos en una variable
+   const productsId = orderUser.products.map(product => product._id);
+   console.log("🚀 ~ file: payments.js ~ line 95 ~ capOrder ~ productsId", productsId);
    await fetch(`${process.env.DATA_URL}/api/order/`, {
       method: 'POST',
       headers: {
          'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-         orderUser
+         pay: orderUser.pay,
+         products: productsId,
+         total: orderUser.total,
+         user: orderUser.user
       })
    }).then(res => res.json())
       .then(data => {

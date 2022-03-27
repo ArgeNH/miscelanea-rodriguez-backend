@@ -42,7 +42,8 @@ const getOrder = async (req, res) => {
 const createOrder = async (req, res) => {
    try {
       const { pay, user, products, total } = req.body;
-      console.log(products);
+      console.log("🚀 ~ file: order.js ~ line 45 ~ createOrder ~ pay, user, products, total", pay, user, products, total)
+
       const order = new Order({
          pay,
          products,
