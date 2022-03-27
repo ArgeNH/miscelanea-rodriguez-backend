@@ -19,6 +19,7 @@ app.use(cors());
 app.use('/api/user', require('../routes/user'));
 app.use('/api/product', require('../routes/product'));
 app.use('/api/payments', require('../routes/payment'));
+app.use('/api/order', require('../routes/order'));
 
 app.listen(app.get('port'), () => {
    console.log(`API is listen in port ${app.get('port')}`);
