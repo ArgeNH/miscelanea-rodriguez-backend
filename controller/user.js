@@ -248,6 +248,31 @@ const revalidateToken = async (req, res) => {
    });
 }
 
+const sendEmail = async (req, res) => {
+   const { email } = req.params;
+   let mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'Compra enviada',
+      html: `Hola, tu compra en 
+      <a href="miscelanearodriguez.life" target="_blank" rel="noreferrer">
+         miscelanearodriguez.life
+      </a>
+      ha sido enviada.`
+   };
+   transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+         console.log(error);
+      } else {
+         console.log('Email sent: ' + info.response);
+      }
+   });
+   res.status(200).json({
+      success: true,
+      message: 'Correo enviado'
+   });
+}
+
 module.exports = {
    getUsers,
    signUp,
@@ -255,5 +280,6 @@ module.exports = {
    updateUser,
    getUser,
    deleteUser,
-   revalidateToken
+   revalidateToken,
+   sendEmail
 };
