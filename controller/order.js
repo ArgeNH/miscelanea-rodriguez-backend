@@ -5,7 +5,7 @@ const Order = require('../models/Order');
 const getOrders = async (req, res) => {
    try {
       const orders = await Order.find({})
-         .populate('user', 'name lastName');
+         .populate('user', 'name lastName email');
       return res.status(200).json({
          success: true,
          orders
@@ -75,7 +75,7 @@ const updateOrder = async (req, res) => {
    try {
       const { id } = req.params;
       const { pay } = req.body;
-      
+
       let result = await Order.findOne({ _id: id });
       result = await Order.findOneAndUpdate({ _id: id }, {
          $set: {

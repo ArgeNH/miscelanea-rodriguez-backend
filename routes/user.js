@@ -6,7 +6,8 @@ const {
    updateUser,
    getUser,
    deleteUser,
-   revalidateToken } = require('../controller/user');
+   revalidateToken,
+   sendEmail } = require('../controller/user');
 const { validateJWT } = require('../middlewares/jwt-validator');
 
 const router = Router();
@@ -18,6 +19,7 @@ router.post('/signup', signUp);
 router.post('/signin', signIn);
 router.patch('/updateUser/:email', updateUser);
 router.delete('/deleteUser/:email', deleteUser);
+router.get('/sendEmail/:email', sendEmail);
 
 router.get('/token/renew', validateJWT, revalidateToken)
 
