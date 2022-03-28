@@ -1,11 +1,20 @@
 const axios = require('axios');
 const { response } = require('express');
+const nodemailer = require('nodemailer');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 const Product = require('../models/Product');
 
 var productsArray = [];
 var orderUser = {};
+
+let transporter = nodemailer.createTransport({
+   service: 'gmail',
+   auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+   }
+});
 
 const createOrder = async (req, res = response) => {
    const { value, products, user, pay } = req.body;
@@ -15,9 +24,10 @@ const createOrder = async (req, res = response) => {
       pay,
       products,
       total: value,
-      user
+      user,
+      email
    }
-   console.log("🚀 ~ file: payments.js ~ line 15 ~ createOrder ~ orderUser", orderUser);
+   console.log("🚀 ~ file: payments.js ~ line 21 ~ createOrder ~ email", email)
 
    const total = value * 0.00026;
    const totalnotDecimal = Math.ceil(total);
@@ -90,7 +100,7 @@ const capOrder = async (req, res) => {
    const productsId = orderUser.products.map(product => product._id);
    const productsCounter = orderUser.products.map(product => product.counter);
 
-   console.log("🚀 ~ file: payments.js ~ line 93 ~ capOrder ~ productsCounter", productsCounter);
+   const email = orderUser.email;
 
    await fetch(`${process.env.DATA_URL}/api/order/`, {
       method: 'POST',
@@ -106,7 +116,36 @@ const capOrder = async (req, res) => {
       })
    }).then(res => res.json())
       .then(data => {
-         console.log(data);
+         let mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: 'Compra realizada',
+            html: `
+            <h1>Compra realizada</h1>
+            <p>
+               Gracias por comprar en 
+               <a href="miscelanearodriguez.life" target="_blank" rel="noreferrer">
+               miscelanearodriguez.life
+               </a>
+            </p>
+            <p>
+               Total:
+               <strong>
+                  ${orderUser.total}
+               </strong>
+            </p>
+            <p>
+               Le avisaremos cuando el producto esté listo.
+            </p>
+            `
+         };
+         transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+               console.log(error);
+            } else {
+               console.log('Email sent: ' + info.response);
+            }
+         });
       })
       .catch(err => console.log(err));
 

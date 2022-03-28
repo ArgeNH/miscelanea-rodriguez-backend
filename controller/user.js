@@ -1,7 +1,16 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
-const jw = require("jsonwebtoken");
+const nodemailer = require('nodemailer');
+
 const { generateJWT } = require("../helpers/jwt");
+
+let transporter = nodemailer.createTransport({
+   service: 'gmail',
+   auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+   }
+});
 
 const getUsers = async (req, res) => {
    try {
@@ -56,6 +65,24 @@ const signUp = async (req, res) => {
 
       //guardar el usuario en la base de datos
       await user.save();
+
+      //enviar correo de confirmacion
+      let mailOptions = {
+         from: process.env.EMAIL_USER,
+         to: user.email,
+         subject: 'Bienvenido a la plataforma de compras de Miscelanea Rodriguez 🏪',
+         text: `Hola ${user.name} ${user.lastName}, gracias por registrarte en nuestra plataforma de compras
+         Miscelanea Rodriguez.`
+      };
+
+      transporter.sendMail(mailOptions, function (error, info) {
+         if (error) {
+            console.log(error);
+         } else {
+            console.log('Email sent: ' + info.response);
+         }
+      });
+
 
       //token
       const token = await generateJWT(
