@@ -17,7 +17,7 @@ let transporter = nodemailer.createTransport({
 });
 
 const createOrder = async (req, res = response) => {
-   const { value, products, user, pay } = req.body;
+   const { value, products, user, pay, email } = req.body;
    productsArray = products;
 
    orderUser = {
